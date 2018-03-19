@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block head_title %}{{ block.super }} | Post List{% endblock head_title %}
+
+{% block content %}
+
+<div class="col-sm-9 col-sm-offset-2">
+    <h1>{{ title }}</h1>
+    <form method="GET" action="">
+        <input type="text" name="q" placeholder="Search Posts" value="{{ request.GET.q }}"/>
+        <input type="submit" value="Search" />
+    </form>
+    {% for obj in object_list %}
+    <div class="col-sm-6">
+        <div class="card" style="width: 50.7rem;">
+            <div class="card-body">
+                {% if obj.images %}
+                <img src="{{ obj.images.url }}" class="img-responsive" />
+                {% endif %}
+                <h5 class="card-title"><a href="{{ obj.get_absolute_url }}">{{ obj.title }} </a></h5>
+                <h6><small>{{ obj.publish }}</small></h6>
+                {% if obj.user.get_full_name %}
+                <p><small><b>Author: {{ obj.user.get_full_name }}</b></small></p>
+                {% endif %}
+                <p class="card-text">{{ obj.content | linebreaks | truncatechars:120}}</p>
+                <a href="{{ obj.get_absolute_url }}" class="btn btn-primary">View</a>
+                <a href="{% url 'posts:edit' slug=obj.slug %}" class="btn btn-primary">Edit</a>
+            </div>
+        </div>
+    </div> <br> <hr>
+
+    {% endfor %}
+
+
+    <div class="pagination">
+        <span class="step-links">
+            {% if object_list.has_previous %}
+                <a href="?page=1">&laquo; first</a>
+                <a href="?page={{ object_list.previous_page_number }}">previous</a>
+            {% endif %}
+
+            <span class="current">
+                Page {{ object_list.number }} of {{ object_list.paginator.num_pages }}.
+            </span>
+
+            {% if object_list.has_next %}
+                <a href="?page={{ object_list.next_page_number }}" >next</a>
+                <a href="?page={{ object_list.paginator.num_pages }}" >last &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+
+</div>
+{% endblock content %}
+

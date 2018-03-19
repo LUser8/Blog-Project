@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block head_title %}{{ instance.title }} | {{block.super}}{% endblock head_title %}
+
+
+{% block content %}
+
+    <div class="col-sm-9 col-sm-offset-3">
+        <div class="card" style="width: 50.7rem;">
+            <div class="card-body">
+                {% if instance.images %}
+                    <img src="{{ instance.images.url }}" class="img-responsive" />
+                {% endif %}
+                <h1> {{ title }}</h1><p>{% if instance.draft %}<span style="color:red;">Draft</span>{% endif %}
+                     <small>{{ instance.publish }}</small></p>
+                {% if instance.user.get_full_name %}
+                <p><b>Author:</b> {{ instance.user.get_full_name }}</p>
+                {% endif %}
+                <div class="fb-like" data-href="{{ request.build_absolute_uri }}"
+                     data-layout="standard" data-action="like" data-size="small"
+                     data-show-faces="true" data-share="true"></div>
+                <hr>
+                <p>{{ instance.content | linebreaks }}</p>
+                <br>
+            </div>
+            <!--<nav class="nav nav-pills nav-justified">-->
+                <!--<a class="btn btn-social-icon btn-facebook" href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}">-->
+                    <!--<span class="fa fa-facebook"></span></a>-->
+
+                <!--<a class="btn btn-social-icon btn-twitter" href="https://twitter.com/home?status={{ request.build_absolute_uri }}">-->
+                    <!--<span class="fa fa-twitter"></span></a>-->
+
+                <!--<a class="btn btn-social-icon btn-google" href='https://plus.google.com/share?url={{ request.build_absolute_uri }}'><span class="fa fa-google"></span></a>-->
+
+                <!--<a class="btn btn-social-icon btn-linkedin" href="https://www.linkedin.com/shareArticle?mini=true&url={{ request.build_absolute_uri }}-->
+                <!--&source={{ request.build_absolute_uri }}"><span class="fa fa-linkedin"></span></a>-->
+            <!--</nav>-->
+
+        </div>
+        <div class="col-sm-8 col-sm-offset4">
+        <div class="fb-comments" data-href="{{ request.build_absolute_uri }}" data-numposts="5"></div>
+        </div>
+    </div>
+
+{% endblock content %}
